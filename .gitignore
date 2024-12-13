@@ -1,6 +1,61 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Build Folders
+bin/
+obj/
+out/
 
-/PhoneContact/obj
-/PhoneContact/bin/Debug/net8.0
+# User-Specific Files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.ide/
+
+# Logs
+*.log
+*.tlg
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# Visual Studio Files
+.vscode/
+.idea/
+.vs/
+
+# Backup Files
+*~ 
+*.bak
+
+# Rider
+.idea/
+
+# Dependencies
+*.nuget/
+*.dll
+*.pdb
+
+# Temporary Files
+*.tmp
+*.temp
+*.cache
+*.log
+*.lock
+
+# Configuration Files
+appsettings.*.json
+appsettings.json
+
+# Database Files
+*.mdf
+*.ldf
+*.sqlite
+*.sqlite3
+
+# Secrets (Optional, don't commit sensitive files)
+secrets.json
+
+# Generated Files
+wwwroot/
+node_modules/
+dist/
