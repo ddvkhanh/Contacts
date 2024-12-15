@@ -44,7 +44,7 @@
                         <ul>
                             @foreach(var number in contact.PhoneNumbers)
                             {
-                                <li>@number.PhoneNumber</li>
+                                <li><span class="phone-type">@number.Type</span> : @number.PhoneNumber</li>
                             }
                         </ul>
                     }

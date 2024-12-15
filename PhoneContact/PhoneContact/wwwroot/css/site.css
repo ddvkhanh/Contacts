@@ -34,10 +34,6 @@ body {
     color: rgb(80, 149, 115);
 }
 
-.form {
-    background-color: rgb(255, 255, 255)
-}
-
 .form-control, 
 .input-group-text {
     height: 3rem;
