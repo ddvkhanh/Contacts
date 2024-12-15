@@ -4,28 +4,129 @@
     ViewData["Title"] = "Create";
 }
 
-<a class="text-black mb-3" asp-page="/Index">Back to List</a>
+<a class="text-black mb-3 back" asp-page="/Index">Back to List</a>
 
 <h1 class="mb-3">Add New Contact</h1>
-<div class="container-sm shadow rounded p-3">
+<div class="form container-sm shadow rounded p-3">
     <form method="post">
-        <div asp-validation-summary="All"></div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
-            <input type="text" asp-for="Contact.Name" class="form-control" id="name" placeholder="Name" aria-label="Name">
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon2"><i class="bi bi-envelope-at"></i></span>
-            <input type="email" asp-for="Contact.EmailAddress" class="form-control" id="email" placeholder="Email address" aria-label="Email address">
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon3"><i class="bi bi-telephone-fill"></i></span>
-            <input type="tel" asp-for="Contact.PhoneNumber" class="form-control" id="phone" placeholder="Phone number" aria-label="Phone number">
-        
-        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <h4>Name</h4>
+        <!-- First Name -->
+        <div class="d-flex gap-3">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                <input type="text" asp-for="Contact.FirstName" class="form-control" id="name" placeholder="First Name" aria-label="First Name">
+            </div>
 
-        <button type="submit" class="btn btn-outline-success">Save</button>
+            <!-- Last Name -->
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                <input type="text" asp-for="Contact.LastName" class="form-control" id="name" placeholder="Last Name" aria-label="Last Name">
+            </div>
+        </div>
+        <!-- Email Addresses -->
+        <h4>Email Addresses</h4>
+        <div id="email-container">
+            @for (int i = 0; i < Model.Contact.EmailAddresses.Count; i++)
+            {
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-envelope-at"></i></span>
+                    <input asp-for="Contact.EmailAddresses[@i].EmailAddress" class="form-control" placeholder="Email Address (optional)" />
+                    @if (i > 0)
+                    {
+                        <button type="button" class="btn btn-danger remove-email">X</button>
+                    }
+                </div>
+            }
+        </div>
+        <button type="button" id="add-email" class="btn btn-outline-secondary mb-3">Add More</button>
+
+        <!-- Phone Numbers -->
+        <h4>Phone Numbers</h4>
+        <div id="phone-container">
+            @for (int i = 0; i < Model.Contact.PhoneNumbers.Count; i++)
+            {
+                <div class="d-flex gap-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon3"><i class="bi bi-telephone-fill"></i></span>
+                        <input asp-for="Contact.PhoneNumbers[@i].PhoneNumber" class="form-control" placeholder="Phone Number" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <select asp-for="Contact.PhoneNumbers[@i].Type" class="form-select">
+                            <option value="Mobile" selected="@(Model.Contact.PhoneNumbers[i].Type == "Mobile" ? "selected" : null)">Mobile</option>
+                            <option value="Home" selected="@(Model.Contact.PhoneNumbers[i].Type == "Home" ? "selected" : null)">Home</option>
+                            <option value="Work" selected="@(Model.Contact.PhoneNumbers[i].Type == "Work" ? "selected" : null)">Work</option>
+                        </select>
+                        @if (i > 0)
+                        {
+                            <button type="button" class="btn btn-danger remove-phone">X</button>
+                        }
+                    </div>
+                </div>
+
+            }
+        </div>
+         <button type="button" id="add-phone" class="btn btn-outline-secondary mb-3">Add More</button>
+
+        <!-- Submit Button -->
+        <div class="text-end mt-3">
+            <button type="submit" class="btn btn-success">Save Contact</button>
+        </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        //Add Email
+        const emailContainer = document.getElementById("email-container");
+        const addEmailButton = document.getElementById("add-email");
+        addEmailButton.addEventListener("click", () =>{
+            const emailIndex = emailContainer.children.length;
+            const emailField = `
+                <div class="mb-3 d-flex align-items-center">
+                    <input name="Contact.EmailAddresses[${emailIndex}].EmailAddress" class="form-control me-2"
+                           placeholder="Email Address (optional)" />
+                    <button type="button" class="btn btn-danger remove-email">X</button>
+                </div>
+            `;
+            emailContainer.insertAdjacentHTML("beforeend", emailField);
+        })
+
+        //Remove Email
+        emailContainer.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remove-email")) {
+                e.target.closest("div").remove();
+            }
+        })
+
+        //Add Phone
+        const phoneContainer = document.getElementById("phone-container");
+        const addPhoneButton = document.getElementById("add-phone");
+
+        addPhoneButton.addEventListener("click", () => {
+            const phoneIndex = phoneContainer.children.length;
+            const phoneField = `
+                    <div class="mb-3 d-flex align-items-center">
+                        <input name="Contact.PhoneNumbers[${phoneIndex}].PhoneNumber" class="form-control me-2"
+                               placeholder="Phone Number" />
+                        <select name="Contact.PhoneNumbers[${phoneIndex}].Type" class="form-select me-2">
+                            <option value="Mobile">Mobile</option>
+                            <option value="Home">Home</option>
+                            <option value="Work">Work</option>
+                        </select>
+                        <button type="button" class="btn btn-danger remove-phone">X</button>
+                    </div>
+            `;
+            phoneContainer.insertAdjacentHTML("beforeend", phoneField);
+        });
+
+        //Remove Phone
+        phoneContainer.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remove-phone")) {
+                e.target.closest("div").remove();
+            }
+        })
+    })
+</script>
 
 
