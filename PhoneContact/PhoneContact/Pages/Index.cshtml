@@ -10,7 +10,8 @@
     <thead class="teal">
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone Number</th>
         </tr>
@@ -20,9 +21,38 @@
         {
             <tr scope="row">
                 <td>@contact.Id</td>
-                <td>@contact.Name</td>
-                <td>@contact.EmailAddress</td>
-                <td>@contact.PhoneNumber</td>
+                <td>@contact.FirstName</td>
+                <td>@contact.LastName</td>
+                <td>
+                    @if (contact.EmailAddresses != null && contact.EmailAddresses.Any())
+                    {
+                        <ul>
+                            @foreach (var email in contact.EmailAddresses)
+                            {
+                                <li>@email.EmailAddress</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No Email</span>
+                    }
+
+                <td>
+                    @if (contact.PhoneNumbers != null && contact.PhoneNumbers.Any())
+                    {
+                        <ul>
+                            @foreach(var number in contact.PhoneNumbers)
+                            {
+                                <li>@number.PhoneNumber</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No Phone Number</span>
+                    }
+                </td>
             </tr>
         }
     </tbody>

@@ -29,3 +29,35 @@ body {
 .white {
     color: #ffffff;
 }
+
+.back:hover {
+    color: rgb(80, 149, 115);
+}
+
+.form {
+    background-color: rgb(255, 255, 255)
+}
+
+.form-control, 
+.input-group-text {
+    height: 3rem;
+    background: #ecf0f4;
+    border-color: transparent;
+    font-size: 1rem;
+}
+
+.form-control::placeholder {
+    color: #6c757d;
+}
+
+.form-select {
+    color: #6c757d;
+    background-color: #ecf0f4;
+    border-color: transparent;
+}
+
+table ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}

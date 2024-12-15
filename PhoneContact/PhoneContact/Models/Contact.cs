@@ -6,15 +6,18 @@ namespace PhoneContact.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters")]
+        public string FirstName { get; set; }
 
-        [EmailAddress(ErrorMessage = "Invalid email address")]
-        public string EmailAddress { get; set; }
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, ErrorMessage = "First Name cannot exceed 50 characters")]
 
-        [Required(ErrorMessage = "Phone number is required")]
-        [Phone(ErrorMessage = "Invalid phone number")]
-        public string PhoneNumber { get; set; }
+        public string LastName { get; set; }
+
+        public List<Email> EmailAddresses { get; set; } = new List<Email>();
+
+        [Required(ErrorMessage = "At least one phone number is required")]
+        public List<Phone> PhoneNumbers { get; set; } 
     }
 }
